@@ -1,0 +1,23 @@
+{
+  "name": "uday-3d-portfolio",
+  "version": "1.0.0",
+  "description": "Uday's Interactive 3D Developer Portfolio - CSE (Data Science)",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve . -l 3000",
+    "dev": "serve . -l 3000",
+    "build": "echo 'Static website ready for deployment'"
+  },
+  "keywords": [
+    "portfolio",
+    "developer",
+    "3d",
+    "data-science",
+    "interactive"
+  ],
+  "author": "Uday Kumar",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
