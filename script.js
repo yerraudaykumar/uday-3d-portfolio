@@ -172,7 +172,7 @@ if (menuToggle && navMenu) {
 // -------------------------------------------------------------
 // SCROLL REVEAL & ACTIVE SECTION HIGHLIGHTING
 // -------------------------------------------------------------
-const items = document.querySelectorAll(".project, .achievement, .edu-card, .skill-grid div, .cert-grid div, .gallery-card");
+const items = document.querySelectorAll(".project, .achievement, .edu-card, .exp-card, .skill-grid div, .cert-grid div, .gallery-card");
 items.forEach(el => {
   el.style.opacity = "0";
   el.style.transform = "translateY(22px)";
