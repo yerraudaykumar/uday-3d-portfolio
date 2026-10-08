@@ -14,11 +14,19 @@
 
 <header class="nav">
   <a class="brand" href="#home">UDAY<span>.</span></a>
-  <nav>
-    <a href="#projects">Work</a>
-    <a href="#about">About</a>
-    <a href="#achievements">Achievements</a>
-    <a href="#contact">Contact</a>
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+  <nav id="navMenu" class="nav-menu">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#education" class="nav-link">Education</a>
+    <a href="#projects" class="nav-link">Work</a>
+    <a href="#achievements" class="nav-link">Achievements</a>
+    <a href="#skills" class="nav-link">Skills</a>
+    <a href="#certifications" class="nav-link">Certifications</a>
+    <a href="#contact" class="nav-link">Contact</a>
   </nav>
 </header>
 
@@ -54,8 +62,53 @@
   </div>
 </section>
 
+<section id="education" class="section education">
+  <div class="section-head"><p class="eyebrow">02 — EDUCATION</p><h2>Academic foundation<br><span>and specialization.</span></h2></div>
+  <div class="education-grid">
+    <div class="edu-card featured-edu">
+      <div class="edu-badge">Undergraduate · B.Tech</div>
+      <div class="edu-header">
+        <h3>CMR College of Engineering & Technology</h3>
+        <span class="edu-year">2024 – 2028</span>
+      </div>
+      <p class="edu-degree">B.Tech — Computer Science & Engineering (Data Science)</p>
+      <p class="edu-location">Hyderabad, Telangana</p>
+      <div class="edu-details">
+        <span><b>Specialization:</b> Data Science, Machine Learning, Data Structures & Algorithms, Python & Java</span>
+        <span><b>Key Achievements:</b> 🥇 1st Prize Winner — AI HackX MRDU (2026), MGIT Technical Project Expo</span>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-badge">Senior Secondary (12th)</div>
+      <div class="edu-header">
+        <h3>Intermediate Education (Class XI – XII)</h3>
+        <span class="edu-year">2022 – 2024</span>
+      </div>
+      <p class="edu-degree">MPC (Mathematics, Physics & Chemistry)</p>
+      <p class="edu-location">Telangana State Board of Intermediate Education</p>
+      <div class="edu-details">
+        <span><b>Core Focus:</b> Advanced Mathematics, Physics, Chemistry & Analytical Problem Solving</span>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-badge">Secondary School (10th)</div>
+      <div class="edu-header">
+        <h3>Secondary School Certificate (Class X)</h3>
+        <span class="edu-year">2021 – 2022</span>
+      </div>
+      <p class="edu-degree">High School Science & Mathematics</p>
+      <p class="edu-location">Board of Secondary Education, Telangana</p>
+      <div class="edu-details">
+        <span><b>Core Focus:</b> Science, Mathematics, English & Foundational Computer Studies</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="projects" class="section projects">
-  <div class="section-head"><p class="eyebrow">02 — FEATURED WORK</p><h2>Featured<br><span>Projects.</span></h2></div>
+  <div class="section-head"><p class="eyebrow">03 — FEATURED WORK</p><h2>Featured<br><span>Projects.</span></h2></div>
   <div class="project-grid">
     <article class="project featured">
       <div class="project-no">01</div>
@@ -73,7 +126,7 @@
 </section>
 
 <section id="achievements" class="section split">
-  <div class="section-head"><p class="eyebrow">03 — ACHIEVEMENTS</p><h2>Built. Competed.<br><span>Recognized.</span></h2></div>
+  <div class="section-head"><p class="eyebrow">04 — ACHIEVEMENTS</p><h2>Built. Competed.<br><span>Recognized.</span></h2></div>
   <div class="timeline">
     <div class="achievement"><div class="dot"></div><div><span class="date">2026</span><h3>🥇 1st Prize — AI HackX MRDU</h3><p>Won first place in the international-level 24-hour AI HackX MRDU hackathon at Malla Reddy University, Hyderabad.</p></div></div>
     <div class="achievement"><div class="dot"></div><div><span class="date">HACKATHONS</span><h3>3 Hackathons Participated</h3><p>Hands-on experience with rapid ideation, prototyping, teamwork and technical pitching.</p></div></div>
@@ -88,7 +141,7 @@
 </section>
 
 <section id="skills" class="section skills">
-  <div class="section-head"><p class="eyebrow">04 — SKILLS</p><h2>Tools I use<br><span>and skills I build.</span></h2></div>
+  <div class="section-head"><p class="eyebrow">05 — SKILLS</p><h2>Tools I use<br><span>and skills I build.</span></h2></div>
   <div class="skill-grid">
     <div><h3>Programming</h3><p>Java · Python · JavaScript</p></div>
     <div><h3>Core</h3><p>DSA · OOP · Problem Solving · SQL</p></div>
@@ -100,7 +153,7 @@
 </section>
 
 <section id="certifications" class="section certifications">
-  <div class="section-head"><p class="eyebrow">05 — CERTIFICATIONS</p><h2>Learning beyond<br><span>the classroom.</span></h2></div>
+  <div class="section-head"><p class="eyebrow">06 — CERTIFICATIONS</p><h2>Learning beyond<br><span>the classroom.</span></h2></div>
   <div class="cert-grid">
     <div><b>Introduction to Data Science</b><span>Cisco · Jul 2026</span></div>
     <div><b>Introduction to Modern AI</b><span>Cisco · Jul 2026</span></div>
@@ -110,7 +163,7 @@
 </section>
 
 <section id="contact" class="contact">
-  <p class="eyebrow">06 — CONTACT</p>
+  <p class="eyebrow">07 — CONTACT</p>
   <h2>Have an idea?<br><span>Let's build it.</span></h2>
   <p>I'm interested in projects, internships, hackathons and opportunities where I can learn and contribute.</p>
   <div class="contact-links">
@@ -122,6 +175,8 @@
 </main>
 
 <footer><span>© 2026 Uday</span><span>Designed & built with purpose.</span></footer>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 <script src="script.js"></script>
 </body>
 </html>

@@ -1,3 +1,6 @@
+// -------------------------------------------------------------
+// CANVAS 3D PARTICLES & CHARACTER RENDERER
+// -------------------------------------------------------------
 const canvas = document.getElementById("characterCanvas");
 const ctx = canvas.getContext("2d");
 let characterImg = null;
@@ -13,22 +16,23 @@ const particles3D = Array.from({ length: 90 }, () => ({
   vy: (Math.random() - 0.5) * 0.4,
 }));
 
-function resize(){
-  const dpr = Math.min(devicePixelRatio || 1, 2);
-  canvas.width = innerWidth * dpr;
-  canvas.height = innerHeight * dpr;
-  canvas.style.width = innerWidth + "px";
-  canvas.style.height = innerHeight + "px";
-  ctx.setTransform(dpr,0,0,dpr,0,0);
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
-addEventListener("resize", resize); resize();
+window.addEventListener("resize", resize);
+resize();
 
-function loadImage(src){
-  return new Promise((resolve,reject)=>{
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
     const im = new Image();
-    im.onload=()=>resolve(im);
-    im.onerror=reject;
-    im.src=src;
+    im.onload = () => resolve(im);
+    im.onerror = reject;
+    im.src = src;
   });
 }
 
@@ -40,8 +44,8 @@ loadImage("public/character_cutout.png")
   });
 
 // Render 3D Ambient Space Background
-function draw3DBackground(){
-  const vw = innerWidth, vh = innerHeight;
+function draw3DBackground() {
+  const vw = window.innerWidth, vh = window.innerHeight;
   const cx = vw * 0.5, cy = vh * 0.5;
 
   // 1. Ambient 3D Glow Gradient
@@ -92,13 +96,25 @@ function draw3DBackground(){
   }
 }
 
-function drawCover(im){
-  if(!im) return;
-  const vw=innerWidth, vh=innerHeight;
-  const iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
-  const scale=Math.max(vw/iw,vh/ih);
-  const dw=iw*scale, dh=ih*scale;
-  const x=(vw-dw)/2, y=(vh-dh)/2;
+function drawCover(im) {
+  if (!im) return;
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const iw = im.naturalWidth || im.width, ih = im.naturalHeight || im.height;
+  
+  // Scale character intelligently for portrait (mobile) vs landscape (laptop)
+  let scale = Math.max(vw / iw, vh / ih);
+  let dw = iw * scale, dh = ih * scale;
+  let x = (vw - dw) / 2;
+  let y = (vh - dh) / 2;
+
+  // On mobile devices, slightly nudge down so character head/body integrates nicely
+  if (vw <= 600) {
+    scale = Math.max(vw / iw, (vh * 0.85) / ih);
+    dw = iw * scale;
+    dh = ih * scale;
+    x = (vw - dw) / 2;
+    y = vh - dh;
+  }
 
   // 3D Ambient Backlight Silhouette Glow
   const glow = ctx.createRadialGradient(vw * 0.5, vh * 0.4, 40, vw * 0.5, vh * 0.4, 380 * scale);
@@ -108,20 +124,123 @@ function drawCover(im){
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, vw, vh);
 
-  ctx.drawImage(im,x,y,dw,dh);
+  ctx.drawImage(im, x, y, dw, dh);
 }
 
-function render(){
-  ctx.clearRect(0,0,innerWidth,innerHeight);
+function render() {
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   draw3DBackground();
-  if(characterImg) drawCover(characterImg);
+  if (characterImg) drawCover(characterImg);
   requestAnimationFrame(render);
 }
 
-// Scroll reveal
-const items=document.querySelectorAll(".project,.achievement,.skill-grid div,.gallery-card");
-items.forEach(el=>{el.style.opacity="0";el.style.transform="translateY(18px)";el.style.transition="opacity .6s ease,transform .6s ease"});
-const io=new IntersectionObserver(entries=>entries.forEach(e=>{
-  if(e.isIntersecting){e.target.style.opacity="1";e.target.style.transform="translateY(0)";io.unobserve(e.target)}
-}),{threshold:.12});
-items.forEach(i=>io.observe(i));
+// -------------------------------------------------------------
+// MOBILE NAVIGATION MENU TOGGLE
+// -------------------------------------------------------------
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+const navLinks = document.querySelectorAll(".nav-link");
+
+if (menuToggle && navMenu) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = navMenu.classList.toggle("active");
+    menuToggle.classList.toggle("open", isOpen);
+    menuToggle.setAttribute("aria-expanded", isOpen);
+  });
+
+  // Close menu when clicking any nav link
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      navMenu.classList.remove("active");
+      menuToggle.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (navMenu.classList.contains("active") && 
+        !navMenu.contains(e.target) && 
+        !menuToggle.contains(e.target)) {
+      navMenu.classList.remove("active");
+      menuToggle.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
+// -------------------------------------------------------------
+// SCROLL REVEAL & ACTIVE SECTION HIGHLIGHTING
+// -------------------------------------------------------------
+const items = document.querySelectorAll(".project, .achievement, .edu-card, .skill-grid div, .cert-grid div, .gallery-card");
+items.forEach(el => {
+  el.style.opacity = "0";
+  el.style.transform = "translateY(22px)";
+  el.style.transition = "opacity .6s ease, transform .6s ease";
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = "1";
+      entry.target.style.transform = "translateY(0)";
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+items.forEach(i => revealObserver.observe(i));
+
+// Highlight active nav link on scroll
+const sections = document.querySelectorAll("section[id]");
+window.addEventListener("scroll", () => {
+  let scrollY = window.scrollY;
+  sections.forEach(current => {
+    const sectionHeight = current.offsetHeight;
+    const sectionTop = current.offsetTop - 120;
+    const sectionId = current.getAttribute("id");
+    const activeLink = document.querySelector(`.nav-menu a[href*="#${sectionId}"]`);
+    
+    if (activeLink) {
+      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        activeLink.classList.add("active");
+      } else {
+        activeLink.classList.remove("active");
+      }
+    }
+  });
+});
+
+// -------------------------------------------------------------
+// CUSTOM CURSOR (LAPTOP / DESKTOP ONLY)
+// -------------------------------------------------------------
+const cursorDot = document.getElementById("cursorDot");
+const cursorRing = document.getElementById("cursorRing");
+
+if (cursorDot && cursorRing && window.matchMedia("(pointer: fine)").matches) {
+  let mouseX = -100, mouseY = -100;
+  let ringX = -100, ringY = -100;
+
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorDot.style.left = `${mouseX}px`;
+    cursorDot.style.top = `${mouseY}px`;
+  });
+
+  function animateCursor() {
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    cursorRing.style.left = `${ringX}px`;
+    cursorRing.style.top = `${ringY}px`;
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Hover state for interactive elements
+  const hoverables = document.querySelectorAll("a, button, .project, .btn, .gallery-card");
+  hoverables.forEach(el => {
+    el.addEventListener("mouseenter", () => cursorRing.classList.add("active"));
+    el.addEventListener("mouseleave", () => cursorRing.classList.remove("active"));
+  });
+}
